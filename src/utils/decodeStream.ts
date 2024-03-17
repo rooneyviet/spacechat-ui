@@ -17,6 +17,6 @@ export const decodeStream = async (stream: ReadableStream): Promise<string> => {
     done = _done;
     chunk++;
   }
-  console.log("decodeStream done", decodedString);
+  //console.log("decodeStream done", decodedString);
   return decodedString;
 };

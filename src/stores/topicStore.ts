@@ -27,6 +27,7 @@ export const useChatStore = create<ITopicStore>((set, get) => ({
   selectTopic: async (topicId: string) => {
     set((state) => ({
       //inputValue: message,
+      selectedTopicId: topicId,
     }));
   },
 }));

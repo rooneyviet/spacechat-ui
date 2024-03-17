@@ -1,28 +1,31 @@
 import { Message } from "@/lib/types/Message";
+import { decodeStream } from "@/utils/decodeStream";
 
 export async function* sendMessageToOpenAI(messages: Message[]) {
   try {
     // Send a POST request to the API Chat route
+    const messagesToSend = [
+      {
+        role: "system",
+        content: "You are a helpful assistant.",
+      },
+      ...messages.slice(0, -1).map((message) => ({
+        role: message.sender,
+        content: message.content,
+      })),
+      // {
+      //   role: "user",
+      //   content: messages[messages.length - 1].content,
+      // },
+    ];
+    console.log(messagesToSend);
     const response = await fetch("/api/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        messages: [
-          {
-            role: "system",
-            content: "You are a helpful assistant.",
-          },
-          ...messages.slice(0, -1).map((message) => ({
-            role: message.sender,
-            content: message.content,
-          })),
-          {
-            role: "user",
-            content: messages[messages.length - 1].content,
-          },
-        ],
+        messages: messagesToSend,
       }),
     });
 
@@ -39,6 +42,8 @@ export async function* sendMessageToOpenAI(messages: Message[]) {
       const chunkValue = decoder.decode(value, { stream: true });
       yield chunkValue;
     }
+
+    //decodeStream(data);
   } catch (error) {
     console.error("Error:", error);
   }
