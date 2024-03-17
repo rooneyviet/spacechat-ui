@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { Message } from "@/lib/types/Message";
 import { sendMessageToOpenAI } from "@/services/chatService";
-import { TextResponse } from "@/lib/types/TextResponse";
 
 interface IChatStore {
   messages: Message[];
