@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+"use client";
+import React from "react";
 import {
   Paper,
   Button,
@@ -14,8 +15,8 @@ import remarkGfm from "remark-gfm";
 import CodeBlockWrapper from "../Messages/Content/CodeBlockWrapperProps";
 
 const ChatScreen = () => {
-  const [inputValue, setInputValue] = useState("");
-  const { messages, sendMessage } = useChatStore();
+  //const [inputValue, setInputValue] = useState("");
+  const { messages, inputValue, sendMessage, setInputValue } = useChatStore();
 
   const handleSendMessage = () => {
     sendMessage(inputValue);

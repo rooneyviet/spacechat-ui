@@ -1,19 +1,19 @@
-"use client";
+//"use client";
 import React from "react";
 import { SideBarSimple } from "./NavBarSimple/SideBarSimple";
-import { Grid } from "@mantine/core";
+import { Grid, GridCol } from "@mantine/core";
 import ChatScreen from "./MainChatArea/MainChatArea";
 
 const Home = () => {
   return (
     <div style={{ overflowX: "hidden", overflowY: "hidden" }}>
       <Grid>
-        <Grid.Col span="content">
+        <GridCol span="content">
           <SideBarSimple />
-        </Grid.Col>
-        <Grid.Col span="auto">
+        </GridCol>
+        <GridCol span="auto">
           <ChatScreen />
-        </Grid.Col>
+        </GridCol>
       </Grid>
     </div>
   );

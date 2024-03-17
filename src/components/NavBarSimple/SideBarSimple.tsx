@@ -1,22 +1,12 @@
-//"use client";
+"use client";
 
 import { Group, Code } from "@mantine/core";
-import {
-  IconBellRinging,
-  IconFingerprint,
-  IconKey,
-  IconSettings,
-  Icon2fa,
-  IconDatabaseImport,
-  IconReceipt2,
-  IconSwitchHorizontal,
-  IconLogout,
-} from "@tabler/icons-react";
+import { Icon2fa, IconSwitchHorizontal, IconLogout } from "@tabler/icons-react";
 import { MantineLogo } from "@mantinex/mantine-logo";
 import classes from "./SideBarSimple.module.css";
 import navbarStore from "./sidebarsimplestore";
 
-const data = [{ link: "", label: "Chat1", icon: IconBellRinging }];
+const data = [{ link: "", label: "Chat1", icon: Icon2fa }];
 
 export function SideBarSimple() {
   //const [active, setActive] = useState("Billing");
