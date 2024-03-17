@@ -46,23 +46,29 @@ const ChatScreen = () => {
               <Text fw={800} c="blue">
                 {message.sender === "user" ? "You" : "AI"}
               </Text>
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  code({ node, className, children, ...props }) {
-                    const match = /language-(\w+)/.exec(className || "");
-                    return match ? (
-                      <CodeBlockWrapper language={match[1]}>
-                        {String(children).replace(/\n$/, "")}
-                      </CodeBlockWrapper>
-                    ) : (
-                      <code className={className}>{children}</code>
-                    );
-                  },
+              <Box
+                style={{
+                  backgroundColor: message.isError ? "#FEE2E2" : "transparent",
                 }}
               >
-                {message.content}
-              </ReactMarkdown>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    code({ node, className, children, ...props }) {
+                      const match = /language-(\w+)/.exec(className || "");
+                      return match ? (
+                        <CodeBlockWrapper language={match[1]}>
+                          {String(children).replace(/\n$/, "")}
+                        </CodeBlockWrapper>
+                      ) : (
+                        <code className={className}>{children}</code>
+                      );
+                    },
+                  }}
+                >
+                  {message.content}
+                </ReactMarkdown>
+              </Box>
             </Box>
           </Paper>
         ))}

@@ -1,7 +1,10 @@
+import { TextResponse } from "@/lib/types/TextResponse";
 import { Message } from "@/lib/types/Message";
 import { decodeStream } from "@/utils/decodeStream";
 
-export async function* sendMessageToOpenAI(messages: Message[]) {
+export async function* sendMessageToOpenAI(
+  messages: Message[]
+): AsyncGenerator<TextResponse, void, unknown> {
   try {
     // Send a POST request to the API Chat route
     const messagesToSend = [
@@ -29,18 +32,31 @@ export async function* sendMessageToOpenAI(messages: Message[]) {
       }),
     });
 
-    const data = response.body;
-    if (!data) return;
+    if (response.ok) {
+      console.log("response.ok");
+      const data = response.body;
+      if (!data) return;
 
-    const reader = data.getReader();
-    const decoder = new TextDecoder();
-    let done = false;
+      const reader = data.getReader();
+      const decoder = new TextDecoder();
+      let done = false;
 
-    while (!done) {
-      const { value, done: doneReading } = await reader.read();
-      done = doneReading;
-      const chunkValue = decoder.decode(value, { stream: true });
-      yield chunkValue;
+      while (!done) {
+        const { value, done: doneReading } = await reader.read();
+        done = doneReading;
+        const chunkValue = decoder.decode(value, { stream: true });
+        yield { content: chunkValue };
+      }
+    } else {
+      // Handle error response
+      const errorMessage = await response.json();
+      console.log("errorMessage", errorMessage.content);
+      yield {
+        content:
+          errorMessage.content ??
+          "Something wrong with your request. Please check API key and try again.",
+        isError: true,
+      };
     }
 
     //decodeStream(data);
