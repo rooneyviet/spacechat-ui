@@ -40,13 +40,16 @@ export async function* sendMessageToOpenAI(
       const reader = data.getReader();
       const decoder = new TextDecoder();
       let done = false;
+      let decodeStream = "";
 
       while (!done) {
         const { value, done: doneReading } = await reader.read();
         done = doneReading;
         const chunkValue = decoder.decode(value, { stream: true });
+        decodeStream += chunkValue;
         yield { content: chunkValue };
       }
+      console.log("decodeStream", decodeStream);
     } else {
       // Handle error response
       const errorMessage = await response.json();

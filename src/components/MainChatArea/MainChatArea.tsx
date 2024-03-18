@@ -8,11 +8,15 @@ import {
   Grid,
   Avatar,
   Text,
+  Textarea,
 } from "@mantine/core";
 import { useChatStore } from "@/stores/chatStore";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import CodeBlockWrapper from "../Messages/Content/CodeBlockWrapperProps";
+import Markdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const ChatScreen = () => {
   //const [inputValue, setInputValue] = useState("");
@@ -21,6 +25,13 @@ const ChatScreen = () => {
   const handleSendMessage = () => {
     sendMessage(inputValue);
     setInputValue("");
+  };
+
+  const onKeyDownEvent = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      handleSendMessage();
+    }
   };
 
   return (
@@ -53,9 +64,11 @@ const ChatScreen = () => {
               >
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
+                  //children={message.content}
                   components={{
                     code({ node, className, children, ...props }) {
                       const match = /language-(\w+)/.exec(className || "");
+
                       return match ? (
                         <CodeBlockWrapper language={match[1]}>
                           {String(children).replace(/\n$/, "")}
@@ -83,10 +96,15 @@ const ChatScreen = () => {
       >
         <Grid>
           <Grid.Col span="auto">
-            <TextInput
+            <Textarea
               value={inputValue}
               onChange={(event) => setInputValue(event.currentTarget.value)}
               placeholder="Type a message..."
+              onKeyDown={onKeyDownEvent}
+              disabled={false}
+              autosize
+              autoComplete="off"
+              maxRows={5}
               style={{ flexGrow: 1 }}
             />
           </Grid.Col>
