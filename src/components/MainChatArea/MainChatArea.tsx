@@ -3,7 +3,6 @@ import React from "react";
 import {
   Paper,
   Button,
-  TextInput,
   Box,
   Grid,
   Avatar,
@@ -11,12 +10,9 @@ import {
   Textarea,
 } from "@mantine/core";
 import { useChatStore } from "@/stores/chatStore";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import CodeBlockWrapper from "../Messages/Content/CodeBlockWrapperProps";
-import Markdown from "react-markdown";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import RemarkMarkdown from "../Messages/Content/codeblocks/RemarkMarkdown";
+import "@/styles/codeBlock.css";
+import "@/styles/prism.css";
 
 const ChatScreen = () => {
   //const [inputValue, setInputValue] = useState("");
@@ -35,8 +31,22 @@ const ChatScreen = () => {
   };
 
   return (
-    <Box style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      <Box style={{ overflowY: "auto", flexGrow: 1, padding: "1rem" }}>
+    <Box
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh",
+        padding: "10px",
+      }}
+    >
+      <Box
+        style={{
+          overflowY: "auto",
+          overflowX: "hidden",
+          flexGrow: 1,
+          padding: "1rem",
+        }}
+      >
         {messages.map((message, index) => (
           <Paper
             style={{
@@ -60,27 +70,20 @@ const ChatScreen = () => {
               <Box
                 style={{
                   backgroundColor: message.isError ? "#FEE2E2" : "transparent",
+                  width: "100%",
                 }}
               >
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  //children={message.content}
-                  components={{
-                    code({ node, className, children, ...props }) {
-                      const match = /language-(\w+)/.exec(className || "");
+                <div className="code-block-container">
+                  {/* <HighlightedText text={message.content} /> */}
+                  <RemarkMarkdown markdown={message.content} />
+                </div>
 
-                      return match ? (
-                        <CodeBlockWrapper language={match[1]}>
-                          {String(children).replace(/\n$/, "")}
-                        </CodeBlockWrapper>
-                      ) : (
-                        <code className={className}>{children}</code>
-                      );
-                    },
-                  }}
-                >
-                  {message.content}
-                </ReactMarkdown>
+                {/* {String(children).replace(/\n$/, "")} */}
+                {/* <div className="code-block-container">
+                  <RemarkMarkdown
+                    markdown={message.content.replace(/\n$/, "")}
+                  />
+                </div> */}
               </Box>
             </Box>
           </Paper>

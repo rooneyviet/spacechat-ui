@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Box, Button } from "@mantine/core";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { coldarkCold } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface CodeBlockWrapperProps {
   language: string;
@@ -24,7 +24,7 @@ const CodeBlockWrapper: React.FC<CodeBlockWrapperProps> = ({
 
   return (
     <Box style={{ position: "relative" }}>
-      <SyntaxHighlighter language={language} style={atomDark} PreTag="div">
+      <SyntaxHighlighter language={language} style={coldarkCold} PreTag="div">
         {children}
       </SyntaxHighlighter>
       <Button
