@@ -44,8 +44,8 @@ const RemarkMarkdown = ({ markdown }: RemarkMarkdownProps) => {
               const copyButtonContainer = document.createElement("div");
               copyButtonContainer.classList.add("copy-button-container");
               codeBlock.appendChild(copyButtonContainer);
-              createPortal(<CopyIcon text={code} />, copyButtonContainer);
-              //ReactDOM.render(<CopyButton code={code} />, copyButton);
+              const root = createRoot(copyButtonContainer);
+              root.render(<CopyIcon text={code} />);
             });
           }
         }}

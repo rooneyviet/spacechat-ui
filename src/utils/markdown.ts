@@ -21,7 +21,7 @@ export default async function markdownToHtml(markdown: string) {
     .use(rehypePrettyCode, {
       // See Options section below.
       //grid: true,
-      //theme: "rose-pine-dawn",
+      theme: "catppuccin-latte",
       //keepBackground: false,
       defaultLang: {
         block: "plaintext",
