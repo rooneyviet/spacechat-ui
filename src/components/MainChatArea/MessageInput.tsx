@@ -34,7 +34,7 @@ const MessageInput = () => {
             disabled={false}
             autosize
             autoComplete="off"
-            maxRows={5}
+            //maxRows={5}
             style={{ flexGrow: 1 }}
           />
         </Grid.Col>

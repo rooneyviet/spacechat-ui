@@ -4,7 +4,14 @@ import { Box } from "@mantine/core";
 import MessageInput from "./MessageInput";
 import MessagesList from "./MessagesList";
 
-const ChatScreen = () => {
+const ChatScreen = ({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
+  console.log(params);
   return (
     <Box
       style={{

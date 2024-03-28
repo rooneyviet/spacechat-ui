@@ -40,6 +40,7 @@
     "framer-motion": "^11.0.6",
     "lodash": "^4.17.21",
     "next": "^14.1.0",
+    "next-themes": "^0.3.0",
     "openai": "^4.20.1",
     "openai-chat-tokens": "^0.2.8",
     "openid-client": "^5.4.2",

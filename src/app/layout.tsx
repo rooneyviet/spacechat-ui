@@ -1,9 +1,11 @@
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@mantine/core/styles.css";
 import React from "react";
-import { MantineProvider, ColorSchemeScript } from "@mantine/core";
+import { MantineProvider, ColorSchemeScript, Box } from "@mantine/core";
 import { theme } from "@/theme";
+import "./globals.css";
+import RightSidebar from "@/components/SideBar/RightSideBar";
+import LeftSidebar from "@/components/SideBar/LeftSidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <ColorSchemeScript />
+        <ColorSchemeScript defaultColorScheme="dark" />
         <link rel="shortcut icon" href="/favicon.svg" />
         <meta
           name="viewport"
@@ -23,8 +25,31 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+        <MantineProvider defaultColorScheme="dark" theme={theme}>
+          <div
+            style={{
+              overflowX: "hidden",
+              overflowY: "hidden",
+              width: "100vw",
+              maxWidth: "100vw",
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
+            <Box style={{ width: "250px" }}>
+              <LeftSidebar />
+            </Box>
+            <Box style={{ flexGrow: 1, overflow: "hidden" }}>{children}</Box>
+            <Box style={{ width: "250px" }}>
+              <RightSidebar />
+            </Box>
+          </div>
+        </MantineProvider>
       </body>
     </html>
   );
+}
+
+{
+  /* <MantineProvider theme={theme}>{children}</MantineProvider>; */
 }
