@@ -7,6 +7,7 @@ import "./globals.css";
 import RightSidebar from "@/components/SideBar/RightSideBar";
 import LeftSidebar from "@/components/SideBar/LeftSidebar";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Separator } from "@/components/ui/separator";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,11 +20,11 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* <ColorSchemeScript /> */}
-        <link rel="shortcut icon" href="/favicon.svg" />
-        <meta
+        {/* <link rel="shortcut icon" href="/favicon.svg" /> */}
+        {/* <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
-        />
+        /> */}
       </head>
       <body>
         <ThemeProvider
@@ -33,21 +34,14 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <MantineProvider>
-            <div
-              style={{
-                overflowX: "hidden",
-                overflowY: "hidden",
-                width: "100vw",
-                maxWidth: "100vw",
-                display: "flex",
-                flexDirection: "row",
-              }}
-            >
-              <Box style={{ width: "250px" }}>
+            <div className="max-w-screen flex w-screen flex-row items-center space-x-4 overflow-x-hidden overflow-y-hidden">
+              <div className="w-64">
                 <LeftSidebar />
-              </Box>
-              <Box style={{ flexGrow: 1, overflow: "hidden" }}>{children}</Box>
-              <Box style={{ width: "250px" }}>
+              </div>
+              <Separator orientation="vertical" />
+              <Box className="flex-grow overflow-hidden">{children}</Box>
+              <Separator orientation="vertical" />
+              <Box className="w-64">
                 <RightSidebar />
               </Box>
             </div>
@@ -56,8 +50,4 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
-
-{
-  /* <MantineProvider theme={theme}>{children}</MantineProvider>; */
 }
