@@ -1,7 +1,8 @@
 "use client";
 import { useChatStore } from "@/stores/chatStore";
-import { Box, Grid, Textarea, Button } from "@mantine/core";
+import { Box, Grid, Textarea, GridCol } from "@mantine/core";
 import React from "react";
+import { Button } from "../ui/button";
 
 const MessageInput = () => {
   const { inputValue, sendMessage, setInputValue } = useChatStore();
@@ -20,12 +21,12 @@ const MessageInput = () => {
     <Box
       style={{
         padding: "1rem",
-        borderTop: "1px solid #FCA5A5",
-        backgroundColor: "#FEE2E2",
+        borderTop: "1px solid ",
+        //backgroundColor: "#FEE2E2",
       }}
     >
       <Grid>
-        <Grid.Col span="auto">
+        <GridCol span="auto">
           <Textarea
             value={inputValue}
             onChange={(event) => setInputValue(event.currentTarget.value)}
@@ -37,12 +38,10 @@ const MessageInput = () => {
             //maxRows={5}
             style={{ flexGrow: 1 }}
           />
-        </Grid.Col>
-        <Grid.Col span="content">
-          <Button color="red" onClick={handleSendMessage}>
-            Send
-          </Button>
-        </Grid.Col>
+        </GridCol>
+        <GridCol span="content">
+          <Button onClick={handleSendMessage}>Send</Button>
+        </GridCol>
       </Grid>
     </Box>
   );
