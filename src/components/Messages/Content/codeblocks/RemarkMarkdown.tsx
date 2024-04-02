@@ -1,9 +1,8 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
-import { Box, Tooltip } from "@mantine/core";
-import { IconCopy, IconCopyCheck } from "@tabler/icons-react";
 import { createRoot } from "react-dom/client";
 import CopyIcon from "../CopyIcon";
-import { createPortal } from "react-dom";
 
 interface RemarkMarkdownProps {
   markdown: string;
@@ -33,7 +32,7 @@ const RemarkMarkdown = ({ markdown }: RemarkMarkdownProps) => {
   }, [markdown]);
 
   return (
-    <Box style={{ position: "relative" }}>
+    <div style={{ position: "relative" }}>
       <div
         dangerouslySetInnerHTML={{ __html: html }}
         ref={(el) => {
@@ -50,7 +49,7 @@ const RemarkMarkdown = ({ markdown }: RemarkMarkdownProps) => {
           }
         }}
       />
-    </Box>
+    </div>
   );
 };
 

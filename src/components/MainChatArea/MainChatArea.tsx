@@ -1,17 +1,17 @@
 //"use client";
-import React from "react";
+import React, { Suspense } from "react";
 import { Box } from "@mantine/core";
 import MessageInput from "./MessageInput";
 import MessagesList from "./MessagesList";
+import SkeletonLoading from "../Messages/Content/SkeletonLoading";
 
 const ChatScreen = ({
   params,
   searchParams,
 }: {
-  params: { slug: string };
+  params: { conversationId: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  console.log(params);
   return (
     <Box
       style={{
@@ -21,7 +21,11 @@ const ChatScreen = ({
         padding: "10px",
       }}
     >
-      <MessagesList />
+      <div className="flex-grow overflow-y-auto overflow-x-hidden p-4">
+        <Suspense fallback={<SkeletonLoading />}>
+          <MessagesList params={params} searchParams={searchParams} />
+        </Suspense>
+      </div>
 
       <MessageInput />
     </Box>

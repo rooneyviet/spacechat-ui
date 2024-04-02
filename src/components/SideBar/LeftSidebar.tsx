@@ -1,25 +1,27 @@
 import Link from "next/link";
-import { Separator } from "../ui/separator";
-export default function LeftSidebar() {
+import { Separator } from "@/components/ui/separator";
+import { prisma } from "../../../lib/prisma";
+import ConversationList from "@/components/SideBar/ConversationList";
+import NewConversation from "@/components/SideBar/NewConversation";
+import { Suspense } from "react";
+
+export default async function LeftSidebar({
+  params,
+  searchParams,
+}: {
+  params?: { conversationId: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   return (
-    <aside className="h-screen p-4">
-      <div className="mb-4">
-        <a href="/" className="text-blue-500">
-          New Conversation
-        </a>
+    <aside className="h-screen overflow-y-auto">
+      <div className="flex justify-center bg-gray-100 p-4">
+        <NewConversation />
       </div>
+
       <Separator orientation="horizontal" />
-      <div className="p-4">
-        <ul className="flex flex-col gap-2">
-          <li>
-            <a href="/chat/1">Conversation 1</a>
-          </li>
-          <li>
-            <a href="/chat/2">Conversation 2</a>
-          </li>
-          {/* Add more conversation items */}
-        </ul>
-      </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <ConversationList params={params} searchParams={searchParams} />
+      </Suspense>
     </aside>
   );
 }

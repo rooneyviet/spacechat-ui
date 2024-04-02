@@ -5,7 +5,7 @@ const ChatPage = ({
   params,
   searchParams,
 }: {
-  params: { slug: string };
+  params: { conversationId: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   return <ChatScreen params={params} searchParams={searchParams} />;

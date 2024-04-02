@@ -1,6 +1,6 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
-import { Box, Button } from "@mantine/core";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkCold } from "react-syntax-highlighter/dist/esm/styles/prism";
 
@@ -23,19 +23,18 @@ const CodeBlockWrapper: React.FC<CodeBlockWrapperProps> = ({
   };
 
   return (
-    <Box style={{ position: "relative" }}>
+    <div style={{ position: "relative" }}>
       <SyntaxHighlighter language={language} style={coldarkCold} PreTag="div">
         {children}
       </SyntaxHighlighter>
       <Button
-        size="xs"
         color={copied ? "teal" : "gray"}
         style={{ position: "absolute", top: "0.5rem", right: "0.5rem" }}
         onClick={copyToClipboard}
       >
         {copied ? "Copied!" : "Copy"}
       </Button>
-    </Box>
+    </div>
   );
 };
 

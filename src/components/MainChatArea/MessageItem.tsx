@@ -1,34 +1,29 @@
-import { Paper, Avatar, Box, Text } from "@mantine/core";
 import React from "react";
 import RemarkMarkdown from "../Messages/Content/codeblocks/RemarkMarkdown";
-import { Message } from "@/lib/types/Message";
+//import { Message } from "@/lib/types/Message";
 import "@/styles/codeBlock.css";
 import "@/styles/prism.css";
+import { IMessage, SENDER } from "@prisma/client";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Label } from "../ui/label";
 
 interface MessageItemProps {
-  message: Message;
+  message: IMessage;
 }
 
 const MessageItem = ({ message }: MessageItemProps) => {
   return (
-    <Paper
-      style={{
-        marginBottom: "10px",
-        display: "flex",
-        alignItems: "flex-start",
-      }}
-      key={message.id}
-    >
-      <Avatar
-        src={message.sender === "user" ? "/user-logo.png" : "/ai-logo.png"}
-        alt={message.sender}
-        mr="sm"
-      />
-      <Box>
-        <Text fw={800} c="blue">
-          {message.sender === "user" ? "You" : "AI"}
-        </Text>
-        <Box
+    <div className="flex items-start space-x-4" key={message.id}>
+      <Avatar className="h-12 w-12">
+        <AvatarImage src="https://github.com/shadcn.png" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+
+      <div className="flex flex-col items-start">
+        <Label className="text-lg font-bold text-sky-500">
+          {message.sender === SENDER.USER ? "You" : "AI"}
+        </Label>
+        <div
           style={{
             backgroundColor: message.isError ? "#FEE2E2" : "transparent",
             width: "100%",
@@ -37,9 +32,9 @@ const MessageItem = ({ message }: MessageItemProps) => {
           <div className="code-block-container">
             <RemarkMarkdown markdown={message.content} />
           </div>
-        </Box>
-      </Box>
-    </Paper>
+        </div>
+      </div>
+    </div>
   );
 };
 

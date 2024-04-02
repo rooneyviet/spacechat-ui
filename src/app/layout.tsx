@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import "@mantine/core/styles.css";
 import React from "react";
 import { MantineProvider, ColorSchemeScript, Box } from "@mantine/core";
-import { theme } from "@/theme";
+//import { theme } from "@/theme";
 import "./globals.css";
 import RightSidebar from "@/components/SideBar/RightSideBar";
 import LeftSidebar from "@/components/SideBar/LeftSidebar";
@@ -29,7 +29,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
