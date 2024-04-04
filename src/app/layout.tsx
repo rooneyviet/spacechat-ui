@@ -8,6 +8,7 @@ import RightSidebar from "@/components/SideBar/RightSideBar";
 import LeftSidebar from "@/components/SideBar/LeftSidebar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Separator } from "@/components/ui/separator";
+import ReactQueryClientProvider from "@/components/ReactQueryClientProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,19 +34,21 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <MantineProvider>
-            <div className="max-w-screen flex w-screen flex-row items-center space-x-4 overflow-x-hidden overflow-y-hidden">
-              <div className="w-64">
-                <LeftSidebar />
+          <ReactQueryClientProvider>
+            <MantineProvider>
+              <div className="max-w-screen flex w-screen flex-row items-center space-x-4 overflow-x-hidden overflow-y-hidden">
+                <div className="w-64">
+                  <LeftSidebar />
+                </div>
+                <Separator orientation="vertical" />
+                <Box className="flex-grow overflow-hidden">{children}</Box>
+                <Separator orientation="vertical" />
+                <Box className="w-64">
+                  <RightSidebar />
+                </Box>
               </div>
-              <Separator orientation="vertical" />
-              <Box className="flex-grow overflow-hidden">{children}</Box>
-              <Separator orientation="vertical" />
-              <Box className="w-64">
-                <RightSidebar />
-              </Box>
-            </div>
-          </MantineProvider>
+            </MantineProvider>
+          </ReactQueryClientProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -1,56 +1,35 @@
-//"use client";
+"use client";
 
 import React from "react";
 import MessageItem from "@/components/MainChatArea/MessageItem";
 import { Box } from "@mantine/core";
 import { IMessage } from ".prisma/client";
 import { prisma } from "../../../lib/prisma";
-import { QueryClient } from "@tanstack/react-query";
+import { QueryClient, useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+import useMessagesListQuery from "@/hooks/useMessagesListQuery";
 
-interface MessagesListProps {
-  params: { conversationId: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}
-
-async function getMessages(conversationId: number) {
+async function getMessages(conversationId: number): Promise<IMessage[]> {
   const messages = await prisma.iMessage.findMany({
     where: { conversationId },
     orderBy: { createdAt: "asc" },
   });
+
   return messages;
 }
 
-const MessagesList = async ({ params, searchParams }: MessagesListProps) => {
-  //console.log("MessagesList", params);
+const MessagesList = () => {
+  const params = useParams<{ conversationId: string }>();
   const conversationId = Number(params.conversationId);
-  // const messages = await prisma.iMessage.findMany({
-  //   where: { conversationId },
-  //   orderBy: { createdAt: "asc" },
-  // });
-  const queryClient = new QueryClient();
-  const messages = await queryClient.fetchQuery({
-    queryKey: ["messages", conversationId],
-    queryFn: async () => {
-      return await getMessages(conversationId);
-    },
-  });
-  console.log(conversationId);
-  //const { messages } = useChatStore();
-  //const messages: IMessage[] = [];
+  const { data } = useQuery(useMessagesListQuery(conversationId));
+
   return (
     <>
-      <Box
-        style={{
-          overflowY: "auto",
-          overflowX: "hidden",
-          flexGrow: 1,
-          padding: "1rem",
-        }}
-      >
-        {messages.map((message, index) => (
-          <MessageItem message={message} />
+      <div className="flex-grow overflow-y-auto overflow-x-hidden p-4">
+        {data?.map((message, index) => (
+          <MessageItem key={message.id} message={message} />
         ))}
-      </Box>
+      </div>
     </>
   );
 };

@@ -1,35 +1,47 @@
 //"use client";
-import React, { Suspense } from "react";
-import { Box } from "@mantine/core";
+import React from "react";
 import MessageInput from "./MessageInput";
 import MessagesList from "./MessagesList";
-import SkeletonLoading from "../Messages/Content/SkeletonLoading";
+import { prisma } from "../../../lib/prisma";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import useMessagesListQuery from "@/hooks/useMessagesListQuery";
 
-const ChatScreen = ({
+async function getMessages(conversationId: number) {
+  const messages = await prisma.iMessage.findMany({
+    where: { conversationId },
+    orderBy: { createdAt: "asc" },
+  });
+  return messages;
+}
+
+const MainChatArea = async ({
   params,
   searchParams,
 }: {
   params: { conversationId: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
+  const conversationId = Number(params.conversationId);
+  const queryClient = new QueryClient();
+  const messages = await queryClient.fetchQuery(
+    useMessagesListQuery(conversationId)
+  );
+
   return (
-    <Box
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100vh",
-        padding: "10px",
-      }}
-    >
+    <div className="flex h-screen flex-col p-2.5">
       <div className="flex-grow overflow-y-auto overflow-x-hidden p-4">
-        <Suspense fallback={<SkeletonLoading />}>
-          <MessagesList params={params} searchParams={searchParams} />
-        </Suspense>
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <MessagesList />
+        </HydrationBoundary>
       </div>
 
       <MessageInput />
-    </Box>
+    </div>
   );
 };
 
-export default ChatScreen;
+export default MainChatArea;
