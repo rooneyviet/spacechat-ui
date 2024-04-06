@@ -10,14 +10,6 @@ import {
 } from "@tanstack/react-query";
 import useMessagesListQuery from "@/hooks/useMessagesListQuery";
 
-async function getMessages(conversationId: number) {
-  const messages = await prisma.iMessage.findMany({
-    where: { conversationId },
-    orderBy: { createdAt: "asc" },
-  });
-  return messages;
-}
-
 const MainChatArea = async ({
   params,
   searchParams,

@@ -6,9 +6,16 @@ import useSWR from "swr";
 import { Button } from "@/components/ui/button";
 import { prisma } from "../../../lib/prisma";
 import { SENDER } from "@prisma/client";
+import { useParams } from "next/navigation";
 
 const MessageInput = () => {
-  const { inputValue, sendMessage, setInputValue } = useChatStore();
+  const {
+    inputValue,
+    userSendMessage: sendMessage,
+    setInputValue,
+  } = useChatStore();
+  const params = useParams<{ conversationId?: string }>();
+  const conversationId = params.conversationId;
 
   // const fetcher = async (url: string) => {
   //   const res = await fetch(url);
@@ -16,19 +23,19 @@ const MessageInput = () => {
   // };
 
   const handleSendMessage = async () => {
-    const response = await fetch("/api/conversation", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ inputValue }),
-    });
+    // const response = await fetch("/api/conversation", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({ inputValue, conversationId }),
+    // });
 
-    if (!response.ok) {
-      throw new Error("Failed to create conversation and message");
-    }
+    // if (!response.ok) {
+    //   throw new Error("Failed to create conversation and message");
+    // }
 
-    const data = await response.json();
+    //const data = await response.json();
     sendMessage(inputValue);
     setInputValue("");
   };

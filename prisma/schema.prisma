@@ -24,7 +24,8 @@ model IConversation {
 
 model IMessage {
   id    Int     @id @default(autoincrement())
-  sender SENDER @default(USER)
+  isGenerating Boolean @default(false)
+  sender SENDER @default(user)
   content String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -36,7 +37,7 @@ model IMessage {
 
 
 enum SENDER {
-  USER
-  ASSISTANT
-  SYSTEM
+  user
+  assistant
+  system
 }

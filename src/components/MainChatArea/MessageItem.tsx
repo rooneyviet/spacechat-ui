@@ -21,7 +21,7 @@ const MessageItem = ({ message }: MessageItemProps) => {
 
       <div className="flex flex-col items-start">
         <Label className="text-lg font-bold text-sky-500">
-          {message.sender === SENDER.USER ? "You" : "AI"}
+          {message.sender === SENDER.user ? "You" : "AI"}
         </Label>
         <div
           style={{

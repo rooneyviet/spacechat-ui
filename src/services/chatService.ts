@@ -1,9 +1,11 @@
 import { TextResponse } from "@/lib/types/TextResponse";
-import { Message } from "@/lib/types/Message";
-import { decodeStream } from "@/utils/decodeStream";
+import { QueryClient } from "@tanstack/react-query";
+import { IMessage } from "@prisma/client";
 
 export async function* sendMessageToOpenAI(
-  messages: Message[]
+  messages: IMessage[],
+  newUserMessage: string,
+  conversationId?: string
 ): AsyncGenerator<TextResponse, void, unknown> {
   try {
     // Send a POST request to the API Chat route
@@ -18,18 +20,29 @@ export async function* sendMessageToOpenAI(
       })),
       // {
       //   role: "user",
-      //   content: messages[messages.length - 1].content,
+      //   content: newUserMessage,
       // },
     ];
-    console.log(messagesToSend);
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    console.log("messagesToSend", messagesToSend);
+    //console.log(messagesToSend);
+    const queryClient = new QueryClient();
+    const response = await queryClient.fetchQuery({
+      queryKey: ["chat", messagesToSend],
+      queryFn: async () => {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            messagesToSend: messagesToSend,
+            messages: messages,
+            conversationId: conversationId,
+            newUserMessage: newUserMessage,
+          }),
+        });
+        return res;
       },
-      body: JSON.stringify({
-        messages: messagesToSend,
-      }),
     });
 
     if (response.ok) {
@@ -52,7 +65,7 @@ export async function* sendMessageToOpenAI(
       console.log("decodeStream", decodeStream);
     } else {
       // Handle error response
-      const errorMessage = await response.json();
+      const errorMessage = await response?.json();
       console.log("errorMessage", errorMessage.content);
       yield {
         content:
