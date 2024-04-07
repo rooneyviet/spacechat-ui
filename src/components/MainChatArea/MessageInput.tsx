@@ -1,12 +1,21 @@
 "use client";
 import { useChatStore } from "@/stores/chatStore";
-import { Box, Grid, Textarea, GridCol } from "@mantine/core";
 import React from "react";
 import useSWR from "swr";
 import { Button } from "@/components/ui/button";
 import { prisma } from "../../../lib/prisma";
 import { SENDER } from "@prisma/client";
 import { useParams } from "next/navigation";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
 
 const MessageInput = () => {
   const {
@@ -47,32 +56,18 @@ const MessageInput = () => {
     }
   };
   return (
-    <Box
-      style={{
-        padding: "1rem",
-        borderTop: "1px solid ",
-        //backgroundColor: "#FEE2E2",
-      }}
-    >
-      <Grid>
-        <GridCol span="auto">
-          <Textarea
-            value={inputValue}
-            onChange={(event) => setInputValue(event.currentTarget.value)}
-            placeholder="Type a message..."
-            onKeyDown={onKeyDownEvent}
-            disabled={false}
-            autosize
-            autoComplete="off"
-            //maxRows={5}
-            style={{ flexGrow: 1 }}
-          />
-        </GridCol>
-        <GridCol span="content">
-          <Button onClick={handleSendMessage}>Send</Button>
-        </GridCol>
-      </Grid>
-    </Box>
+    <div className="flex w-full items-center space-x-2">
+      <Textarea
+        value={inputValue}
+        onChange={(event) => setInputValue(event.currentTarget.value)}
+        placeholder="Type a message..."
+        onKeyDown={onKeyDownEvent}
+        disabled={false}
+        autoComplete="off"
+        className="flex-grow"
+      />
+      <Button onClick={handleSendMessage}>Send</Button>
+    </div>
   );
 };
 

@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "@mantine/core/styles.css";
 import React from "react";
-import { MantineProvider, ColorSchemeScript, Box } from "@mantine/core";
+import { MantineProvider } from "@mantine/core";
 //import { theme } from "@/theme";
 import "./globals.css";
 import RightSidebar from "@/components/SideBar/RightSideBar";
@@ -28,28 +28,26 @@ export default function RootLayout({
         /> */}
       </head>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ReactQueryClientProvider>
-            <MantineProvider>
-              <div className="max-w-screen flex w-screen flex-row items-center space-x-4 overflow-x-hidden overflow-y-hidden">
-                <div className="w-64">
-                  <LeftSidebar />
-                </div>
-                <Separator orientation="vertical" />
-                <Box className="flex-grow overflow-hidden">{children}</Box>
-                <Separator orientation="vertical" />
-                <Box className="w-64">
-                  <RightSidebar />
-                </Box>
+        <ReactQueryClientProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="max-w-screen flex w-screen flex-row items-center space-x-4 overflow-x-hidden overflow-y-hidden">
+              <div className="w-64 flex-shrink-0">
+                <LeftSidebar />
               </div>
-            </MantineProvider>
-          </ReactQueryClientProvider>
-        </ThemeProvider>
+              <Separator orientation="vertical" className="mx-4 h-screen" />
+              <div className="flex-grow overflow-hidden">{children}</div>
+              <Separator orientation="vertical" className="mx-4 h-screen" />
+              <div className="w-64 flex-shrink-0">
+                <RightSidebar />
+              </div>
+            </div>
+          </ThemeProvider>
+        </ReactQueryClientProvider>
       </body>
     </html>
   );
