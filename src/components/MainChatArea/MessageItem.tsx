@@ -1,11 +1,12 @@
 import React from "react";
 import RemarkMarkdown from "../Messages/Content/codeblocks/RemarkMarkdown";
 //import { Message } from "@/lib/types/Message";
-import "@/styles/codeBlock.css";
+//import "@/styles/codeBlock.css";
 import "@/styles/prism.css";
 import { IMessage, SENDER } from "@prisma/client";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Label } from "../ui/label";
+import MarkdownContent from "../Messages/Content/codeblocks/MarkdownContent";
 
 interface MessageItemProps {
   message: IMessage;
@@ -29,9 +30,10 @@ const MessageItem = ({ message }: MessageItemProps) => {
             width: "100%",
           }}
         >
-          <div className="code-block-container">
+          {/* <div className="code-block-container">
             <RemarkMarkdown markdown={message.content} />
-          </div>
+          </div> */}
+          <MarkdownContent content={message.content} />
         </div>
       </div>
     </div>

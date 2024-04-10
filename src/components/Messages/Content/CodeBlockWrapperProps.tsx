@@ -24,9 +24,16 @@ const CodeBlockWrapper: React.FC<CodeBlockWrapperProps> = ({
 
   return (
     <div style={{ position: "relative" }}>
-      <SyntaxHighlighter language={language} style={coldarkCold} PreTag="div">
-        {children}
-      </SyntaxHighlighter>
+      <SyntaxHighlighter
+        lineProps={{
+          style: { wordBreak: "break-all", whiteSpace: "pre-wrap" },
+        }}
+        PreTag="pre"
+        wrapLines={true}
+        children={children}
+        language={language}
+        style={coldarkCold}
+      />
       <Button
         color={copied ? "teal" : "gray"}
         style={{ position: "absolute", top: "0.5rem", right: "0.5rem" }}
