@@ -11,9 +11,9 @@ const Home = () => {
       <div className="flex-grow">
         <Welcome />
       </div>
-      <div>
+      {/* <div>
         <MessageInput />
-      </div>
+      </div> */}
     </main>
   );
 };

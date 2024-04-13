@@ -1,21 +1,23 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useTopicStore } from "@/stores/topicStore";
 import { useChatStore } from "@/stores/chatStore";
+import { useShallow } from "zustand/react/shallow";
 
 const NewConversation = () => {
   const router = useRouter();
-  const { selectTopic } = useTopicStore();
-  const { setConversationId, setMessages, messages } = useChatStore();
+  const { setConversationId } = useChatStore(
+    useShallow((state) => ({
+      setConversationId: state.setConversationId,
+    }))
+  );
   return (
     <div className="">
       <p
         className="cursor-pointer text-blue-500"
         onClick={() => {
-          router.replace(`/`);
           setConversationId(undefined);
-          selectTopic(undefined);
+          router.replace(`/`);
         }}
       >
         New Conversation

@@ -23,8 +23,6 @@ export async function* sendMessageToOpenAI(
       //   content: newUserMessage,
       // },
     ];
-    console.log("messagesToSend", messagesToSend);
-    //console.log(messagesToSend);
     const queryClient = new QueryClient();
     const response = await queryClient.fetchQuery({
       queryKey: ["chat", messagesToSend],
@@ -46,7 +44,6 @@ export async function* sendMessageToOpenAI(
     });
 
     if (response.ok) {
-      console.log("response.ok");
       const data = response.body;
       if (!data) return;
 

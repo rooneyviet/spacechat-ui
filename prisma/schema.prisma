@@ -15,7 +15,7 @@ datasource db {
 }
 
 model IConversation {
-  id    Int     @id @default(autoincrement())
+  id    String     @id @default(uuid())
   title String 
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
@@ -23,14 +23,14 @@ model IConversation {
 }
 
 model IMessage {
-  id    Int     @id @default(autoincrement())
+  id    String     @id @default(uuid())
   isGenerating Boolean @default(false)
   sender SENDER @default(user)
   content String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   conversation    IConversation?    @relation(fields: [conversationId], references: [id])
-  conversationId    Int?
+  conversationId    String?
   isError Boolean @default(false)
   interrupted Boolean @default(false)
 }

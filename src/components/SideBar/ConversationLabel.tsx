@@ -5,6 +5,8 @@ import { Label } from "../ui/label";
 import { useParams, useRouter } from "next/navigation";
 import { useTopicStore } from "@/stores/topicStore";
 import { IConversation } from "@prisma/client";
+import { useChatStore } from "@/stores/chatStore";
+import { useShallow } from "zustand/react/shallow";
 
 interface ConversationLabelProps {
   conversation: IConversation;
@@ -12,24 +14,31 @@ interface ConversationLabelProps {
 
 const ConversationLabel = ({ conversation }: ConversationLabelProps) => {
   const router = useRouter();
-  const params = useParams<{ conversationId: string }>();
-  const { selectedTopicId, selectTopic } = useTopicStore();
+  const params = useParams<{ conversationId?: string }>();
+  const { currentConversationId, setConversationId } = useChatStore(
+    useShallow((state) => ({
+      currentConversationId: state.currentConversationId,
+      setConversationId: state.setConversationId,
+    }))
+  );
   useEffect(() => {
     if (params.conversationId === conversation.id.toString()) {
       console.log("params", params);
-      selectTopic(params.conversationId);
+      setConversationId(params.conversationId);
     }
-  }, [params.conversationId, conversation.id, selectTopic]);
+  }, [params.conversationId, conversation.id, setConversationId]);
 
   return (
     <>
       <Label
         className={`${
-          selectedTopicId === conversation.id.toString() ? "text-blue-500" : ""
+          currentConversationId === conversation.id.toString()
+            ? "text-blue-500"
+            : ""
         } cursor-pointer`}
         onClick={() => {
+          setConversationId(conversation.id.toString());
           router.replace(`/chat/${conversation.id.toString()}`);
-          selectTopic(conversation.id.toString());
         }}
       >
         {conversation.title || `Conversation ${conversation.id}`}

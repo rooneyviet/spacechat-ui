@@ -1,6 +1,6 @@
 import { prisma } from "../../lib/prisma";
 
-async function getMessages(conversationId: number) {
+async function getMessages(conversationId: string) {
   const messages = await prisma.iMessage.findMany({
     where: { conversationId },
     orderBy: { createdAt: "asc" },
@@ -8,7 +8,7 @@ async function getMessages(conversationId: number) {
   return messages;
 }
 
-function useMessagesListQuery(conversationId: number) {
+function useMessagesListQuery(conversationId: string) {
   const queryKey = ["messages", conversationId];
 
   const queryFn = async () => {

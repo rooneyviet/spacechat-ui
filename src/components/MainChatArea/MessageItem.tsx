@@ -14,7 +14,7 @@ interface MessageItemProps {
 
 const MessageItem = ({ message }: MessageItemProps) => {
   return (
-    <div className="flex items-start space-x-4" key={message.id}>
+    <div className="flex items-start space-x-4 space-y-4" key={message.id}>
       <Avatar className="h-12 w-12">
         <AvatarImage src="https://github.com/shadcn.png" />
         <AvatarFallback>CN</AvatarFallback>

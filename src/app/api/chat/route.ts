@@ -43,7 +43,7 @@ export async function POST(req: Request) {
         //await saveCompletionToDatabase(completion);
         console.log("completion", completion);
         await finishGeneratingMessage(
-          Number(conversationId),
+          conversationId,
           lastMessage.id,
           completion,
           false
@@ -66,7 +66,7 @@ export async function POST(req: Request) {
       };
 
       await finishGeneratingMessage(
-        Number(conversationId),
+        conversationId,
         lastMessage.id,
         message,
         true

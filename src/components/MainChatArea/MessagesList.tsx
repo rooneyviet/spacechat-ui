@@ -6,31 +6,28 @@ import { Box } from "@mantine/core";
 import { IMessage } from ".prisma/client";
 import { prisma } from "../../../lib/prisma";
 import { QueryClient, useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import useMessagesListQuery from "@/hooks/useMessagesListQuery";
 import { useChatStore } from "@/stores/chatStore";
-
-async function getMessages(conversationId: number): Promise<IMessage[]> {
-  const messages = await prisma.iMessage.findMany({
-    where: { conversationId },
-    orderBy: { createdAt: "asc" },
-  });
-
-  return messages;
-}
+import { useShallow } from "zustand/react/shallow";
 
 const MessagesList = () => {
-  const { setConversationId, setMessages, messages } = useChatStore();
+  // const { setMessages, messages } = useChatStore(
+  //   useShallow((state) => ({
+  //     setConversationId: state.setConversationId,
+  //     setMessages: state.setMessages,
+  //     messages: state.messages,
+  //     currentConversationId: state.currentConversationId,
+  //   }))
+  // );
+  const { setMessages, messages } = useChatStore();
 
-  const params = useParams<{ conversationId: string }>();
+  const params = useParams<{ conversationId?: string }>();
+
+  const router = useRouter();
   const conversationId = params.conversationId;
-  const { data } = useQuery(useMessagesListQuery(Number(conversationId)));
-
-  useEffect(() => {
-    if (conversationId) {
-      setConversationId(conversationId);
-    }
-  }, [conversationId, setConversationId]);
+  if (!conversationId) return <div>No conversation id</div>;
+  const { data } = useQuery(useMessagesListQuery(conversationId));
 
   useEffect(() => {
     if (data) {

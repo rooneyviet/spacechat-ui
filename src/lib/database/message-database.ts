@@ -35,11 +35,11 @@ export async function createNewConversation(
 
 // Insert a new message into the database
 export async function insertNewMessage(
-  conversationId: number,
+  conversationId: string,
   newMessage: string,
   sender: SENDER
 ): Promise<IMessage> {
-  console.log("insertNewMessage");
+  console.log("insertNewMessage", conversationId, newMessage, sender);
   const isGenerating = sender === SENDER.assistant;
   const iMessage = await prisma.iMessage.create({
     data: {
@@ -57,8 +57,8 @@ export async function insertNewMessage(
 
 // Update a message after finish generating message
 export async function finishGeneratingMessage(
-  conversationId: number,
-  iMessageId: number,
+  conversationId: string,
+  iMessageId: string,
   generatedContent: string,
   isError: boolean
 ): Promise<IMessage> {
@@ -69,6 +69,7 @@ export async function finishGeneratingMessage(
     data: {
       content: generatedContent,
       isError: isError,
+      isGenerating: false,
     },
   });
   const queryClient = new QueryClient();

@@ -17,7 +17,7 @@ const MainChatArea = async ({
   params: { conversationId: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const conversationId = Number(params.conversationId);
+  const conversationId = params.conversationId;
   const queryClient = new QueryClient();
   const messages = await queryClient.fetchQuery(
     useMessagesListQuery(conversationId)
@@ -31,7 +31,7 @@ const MainChatArea = async ({
         </HydrationBoundary>
       </div>
 
-      <MessageInput />
+      {/* <MessageInput /> */}
     </div>
   );
 };

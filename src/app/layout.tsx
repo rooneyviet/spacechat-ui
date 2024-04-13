@@ -9,6 +9,7 @@ import LeftSidebar from "@/components/SideBar/LeftSidebar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Separator } from "@/components/ui/separator";
 import ReactQueryClientProvider from "@/components/ReactQueryClientProvider";
+import MessageInput from "@/components/MainChatArea/MessageInput";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,7 +41,15 @@ export default function RootLayout({
                 <LeftSidebar />
               </div>
               <Separator orientation="vertical" className="mx-4 h-screen" />
-              <div className="flex-grow overflow-hidden">{children}</div>
+              <div className="flex-grow overflow-hidden">
+                <div className="flex h-screen flex-col p-2.5">
+                  <div className="flex-grow overflow-y-auto overflow-x-hidden p-4">
+                    {children}
+                  </div>
+
+                  <MessageInput />
+                </div>
+              </div>
               <Separator orientation="vertical" className="mx-4 h-screen" />
               <div className="w-64 flex-shrink-0">
                 <RightSidebar />

@@ -12,7 +12,7 @@ export async function POST(req: Request) {
         messages: {
           create: [
             {
-              sender: SENDER.USER,
+              sender: SENDER.user,
               content: inputValue,
             },
           ],

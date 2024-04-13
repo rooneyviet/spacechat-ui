@@ -5,14 +5,11 @@ import { prisma } from "../../../lib/prisma";
 import ConversationLabel from "./ConversationLabel";
 
 interface ConversationListProps {
-  params?: { conversationId: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
+  params: { conversationId: string };
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-const ConversationList = async ({
-  params,
-  searchParams,
-}: ConversationListProps) => {
+const ConversationList = async () => {
   const iConversations = await prisma.iConversation.findMany({
     orderBy: {
       updatedAt: "desc",
