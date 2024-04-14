@@ -19,9 +19,7 @@ const MainChatArea = async ({
 }) => {
   const conversationId = params.conversationId;
   const queryClient = new QueryClient();
-  const messages = await queryClient.fetchQuery(
-    useMessagesListQuery(conversationId)
-  );
+  await queryClient.prefetchQuery(useMessagesListQuery(conversationId));
 
   return (
     <div className="flex h-screen flex-col p-2.5">

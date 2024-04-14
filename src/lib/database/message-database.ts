@@ -1,13 +1,21 @@
-import { IMessage, SENDER } from "@prisma/client";
+import { IConversation, IMessage, SENDER } from "@prisma/client";
 import { prisma } from "../../../lib/prisma";
 import { QueryClient } from "@tanstack/react-query";
 import useMessagesListQuery from "@/hooks/useMessagesListQuery";
+
+// get messages from conversation
+export async function getMessages(conversationId: string) {
+  const messages = await prisma.iMessage.findMany({
+    where: { conversationId },
+    orderBy: { createdAt: "asc" },
+  });
+  return messages;
+}
 
 // Insert a new conversation into the database
 export async function createNewConversation(
   newMessage: string
 ): Promise<IMessage> {
-  console.log("createNewConversation");
   const newConversation = await prisma.iConversation.create({
     data: {
       title: "New Conversation1",
@@ -39,7 +47,12 @@ export async function insertNewMessage(
   newMessage: string,
   sender: SENDER
 ): Promise<IMessage> {
-  console.log("insertNewMessage", conversationId, newMessage, sender);
+  const iconversation = await getConversation(conversationId);
+  if (!iconversation) {
+    const messagesInNewConv = await createNewConversation(conversationId);
+    return messagesInNewConv;
+  }
+
   const isGenerating = sender === SENDER.assistant;
   const iMessage = await prisma.iMessage.create({
     data: {
@@ -75,4 +88,27 @@ export async function finishGeneratingMessage(
   const queryClient = new QueryClient();
   queryClient.invalidateQueries(useMessagesListQuery(conversationId));
   return iMessage;
+}
+
+// get conversation by id
+export async function getConversation(
+  conversationId: string
+): Promise<IConversation | null> {
+  const iConversation = await prisma.iConversation.findUnique({
+    where: {
+      id: conversationId,
+    },
+  });
+  return iConversation;
+}
+
+// Update a message after finish generating message
+export async function getConversationList(): Promise<IConversation[]> {
+  const iConversations = await prisma.iConversation.findMany({
+    orderBy: {
+      updatedAt: "desc",
+    },
+  });
+
+  return iConversations;
 }

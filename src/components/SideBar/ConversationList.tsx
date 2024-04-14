@@ -3,6 +3,7 @@
 import React from "react";
 import { prisma } from "../../../lib/prisma";
 import ConversationLabel from "./ConversationLabel";
+import { getConversationList } from "@/lib/database/message-database";
 
 interface ConversationListProps {
   params: { conversationId: string };
@@ -10,11 +11,7 @@ interface ConversationListProps {
 }
 
 const ConversationList = async () => {
-  const iConversations = await prisma.iConversation.findMany({
-    orderBy: {
-      updatedAt: "desc",
-    },
-  });
+  const iConversations = await getConversationList();
 
   return (
     <div className="p-4">

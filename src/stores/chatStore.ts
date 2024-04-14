@@ -10,20 +10,33 @@ interface IChatStore {
   inputValue: string;
   currentConversationId?: string;
   isWelcomePage: boolean;
+}
+
+interface IChatActions {
   setMessages: (messages: IMessage[]) => void;
   setInputValue: (message: string) => void;
   userSendMessage: (message: string) => Promise<void>;
   generatingLastMessage: (message: string, isError: boolean) => Promise<void>;
   setConversationId: (conversationId?: string) => void;
   setIsWelcomePage: (isWelcomePage: boolean) => void;
+  resetChat: () => void;
 }
-export const useChatStore = create<IChatStore>()(
+
+const initialState: IChatStore = {
+  messages: [],
+  inputValue: "",
+  currentConversationId: undefined,
+  isWelcomePage: false,
+};
+export const useChatStore = create<IChatStore & IChatActions>()(
   devtools(
     (set, get) => ({
-      messages: [],
-      inputValue: "",
-      currentConversationId: undefined,
-      isWelcomePage: false,
+      ...initialState,
+      resetChat: () => {
+        set((state) => ({
+          ...initialState,
+        }));
+      },
       setIsWelcomePage: (isWelcomePage: boolean) =>
         set((state) => ({
           isWelcomePage,
@@ -75,7 +88,7 @@ export const useChatStore = create<IChatStore>()(
 
           if (!get().currentConversationId || get().isWelcomePage) {
             set((state) => ({
-              //currentConversationId: iUserMessage.conversationId?.toString(),
+              currentConversationId: iUserMessage.conversationId?.toString(),
             }));
           }
         }

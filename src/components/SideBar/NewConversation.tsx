@@ -6,9 +6,9 @@ import { useShallow } from "zustand/react/shallow";
 
 const NewConversation = () => {
   const router = useRouter();
-  const { setConversationId } = useChatStore(
+  const { resetChat } = useChatStore(
     useShallow((state) => ({
-      setConversationId: state.setConversationId,
+      resetChat: state.resetChat,
     }))
   );
   return (
@@ -16,7 +16,7 @@ const NewConversation = () => {
       <p
         className="cursor-pointer text-blue-500"
         onClick={() => {
-          setConversationId(undefined);
+          resetChat();
           router.replace(`/`);
         }}
       >

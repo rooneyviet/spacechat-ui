@@ -1,9 +1,6 @@
 //"use client";
 import React from "react";
-import { SideBarSimple } from "./NavBarSimple/SideBarSimple";
-import ChatScreen from "./MainChatArea/MainChatArea";
 import { Welcome } from "./Welcome/Welcome";
-import MessageInput from "./MainChatArea/MessageInput";
 
 const Home = () => {
   return (
@@ -11,9 +8,6 @@ const Home = () => {
       <div className="flex-grow">
         <Welcome />
       </div>
-      {/* <div>
-        <MessageInput />
-      </div> */}
     </main>
   );
 };
