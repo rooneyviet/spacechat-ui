@@ -4,6 +4,7 @@ import { IMessage, SENDER } from "@prisma/client";
 import { QueryClient } from "@tanstack/react-query";
 //import { useRouter } from "next/dist/client/router";
 import { devtools } from "zustand/middleware";
+import Router from "next/router";
 
 interface IChatStore {
   messages: IMessage[];
@@ -75,6 +76,8 @@ export const useChatStore = create<IChatStore & IChatActions>()(
           },
         });
 
+        console.log("response", response);
+
         if (response?.ok) {
           const {
             iUserMessage,
@@ -85,8 +88,7 @@ export const useChatStore = create<IChatStore & IChatActions>()(
           set((state) => ({
             messages: [...state.messages, iUserMessage, assistantIMessage],
           }));
-
-          if (!get().currentConversationId || get().isWelcomePage) {
+          if (!get().currentConversationId) {
             set((state) => ({
               currentConversationId: iUserMessage.conversationId?.toString(),
             }));

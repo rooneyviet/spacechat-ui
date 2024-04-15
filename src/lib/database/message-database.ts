@@ -4,7 +4,13 @@ import { QueryClient } from "@tanstack/react-query";
 import useMessagesListQuery from "@/hooks/useMessagesListQuery";
 
 // get messages from conversation
-export async function getMessages(conversationId: string) {
+export async function getMessages(
+  conversationId: string
+): Promise<IMessage[] | null> {
+  const iconversation = await getConversation(conversationId);
+  if (!iconversation) {
+    return null;
+  }
   const messages = await prisma.iMessage.findMany({
     where: { conversationId },
     orderBy: { createdAt: "asc" },
@@ -16,6 +22,7 @@ export async function getMessages(conversationId: string) {
 export async function createNewConversation(
   newMessage: string
 ): Promise<IMessage> {
+  console.log("createNewConversation", newMessage);
   const newConversation = await prisma.iConversation.create({
     data: {
       title: "New Conversation1",
@@ -63,8 +70,8 @@ export async function insertNewMessage(
       isError: false,
     },
   });
-  //const queryClient = new QueryClient();
-  //queryClient.invalidateQueries(useMessagesListQuery(conversationId));
+  const queryClient = new QueryClient();
+  queryClient.invalidateQueries(useMessagesListQuery(conversationId));
   return iMessage;
 }
 
@@ -94,12 +101,17 @@ export async function finishGeneratingMessage(
 export async function getConversation(
   conversationId: string
 ): Promise<IConversation | null> {
-  const iConversation = await prisma.iConversation.findUnique({
-    where: {
-      id: conversationId,
-    },
-  });
-  return iConversation;
+  try {
+    const iConversation = await prisma.iConversation.findUnique({
+      where: {
+        id: conversationId,
+      },
+    });
+    return iConversation;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 // Update a message after finish generating message

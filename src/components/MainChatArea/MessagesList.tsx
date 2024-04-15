@@ -8,32 +8,33 @@ import useMessagesListQuery from "@/hooks/useMessagesListQuery";
 import { useChatStore } from "@/stores/chatStore";
 import { Welcome } from "../Welcome/Welcome";
 import { IMessage } from "@prisma/client";
+import { useShallow } from "zustand/react/shallow";
 
 const MessagesList = () => {
-  // const { setMessages, messages } = useChatStore(
-  //   useShallow((state) => ({
-  //     setConversationId: state.setConversationId,
-  //     setMessages: state.setMessages,
-  //     messages: state.messages,
-  //     currentConversationId: state.currentConversationId,
-  //   }))
-  // );
+  const { setMessages } = useChatStore(
+    useShallow((state) => ({
+      setMessages: state.setMessages,
+      //messages: state.messages,
+    }))
+  );
+
+  //const messages = useChatStore((state) => state.messages);
   //const { setMessages } = useChatStore();
-  const { setMessages, messages } = useChatStore();
-  const params = useParams<{ conversationId?: string }>();
+  const { messages } = useChatStore();
+  const params = useParams<{ conversationId: string }>();
 
   const router = useRouter();
   const conversationId = params.conversationId;
-  if (!conversationId) return <div>No conversation id</div>;
 
-  const { data } = useQuery(useMessagesListQuery(conversationId));
+  const { data } = useQuery<IMessage[] | null>(
+    useMessagesListQuery(conversationId)
+  );
 
   useEffect(() => {
     if (data) {
       setMessages(data);
     }
-    //console.log("isError", isLoading, error, isError);
-  }, [messages, setMessages]);
+  }, [setMessages]);
 
   return (
     <>

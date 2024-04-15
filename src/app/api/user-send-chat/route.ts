@@ -12,13 +12,15 @@ export async function POST(req: Request) {
   //let conversationIdNum: number | undefined = Number(conversationId);
   try {
     // Insert the last user message into the database
+    console.log(" Insert the last user message into the database");
     const iUserMessage: IMessage = conversationId
       ? await insertNewMessage(conversationId, newUserMessage, SENDER.user)
       : await createNewConversation(newUserMessage);
 
     // Insert empty AI Message
+    console.log("  Insert empty AI Message");
     const assistantIMessage: IMessage = await insertNewMessage(
-      conversationId,
+      iUserMessage.conversationId ?? conversationId,
       "",
       SENDER.assistant
     );
