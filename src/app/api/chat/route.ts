@@ -3,10 +3,21 @@ import { OpenAIStream, StreamingTextResponse } from "ai";
 import { NextResponse } from "next/server";
 import { IMessage } from "@prisma/client";
 import { finishGeneratingMessage } from "@/lib/database/message-database";
+import AIProvider from "@/lib/aiprovider/AIProvider";
+import OpenAIProvider from "@/lib/aiprovider/OpenAIProvider";
+import AnthropicProvider from "@/lib/aiprovider/AnthropicProvider";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Function to create the appropriate AI provider based on the user's selection
+function getAIProvider(provider: string): AIProvider {
+  switch (provider) {
+    case "openai":
+      return new OpenAIProvider();
+    case "anthropic":
+      return new AnthropicProvider();
+    default:
+      throw new Error(`Unsupported AI provider: ${provider}`);
+  }
+}
 
 export async function POST(req: Request) {
   // Extract the `messages` from the body of the request
@@ -14,19 +25,22 @@ export async function POST(req: Request) {
   const lastMessage: IMessage = messages.at(-1);
 
   console.log("lastMessage", lastMessage, conversationId, lastMessage.id);
-  //let conversationIdNum: number | undefined = Number(conversationId);
-  // Extract the `messages` from the body of the request
+
+  const model = "gpt-3.5-turbo";
+  const provider = "openai";
+  const aiProvider: AIProvider = getAIProvider(provider);
 
   try {
     // Request the OpenAI API for the response based on the prompt
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+    const response = await aiProvider.createChatCompletion({
+      model,
       stream: true,
       messages: messagesToSend,
     });
 
     // Convert the response into a friendly text-stream
-    const stream = OpenAIStream(response, {
+    //const stream = OpenAIStream(response);
+    const stream = aiProvider.createStream(response, {
       onStart: async () => {
         // This callback is called when the stream starts
         // You can use this to save the prompt to your database

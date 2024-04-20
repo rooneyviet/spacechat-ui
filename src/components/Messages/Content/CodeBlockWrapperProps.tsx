@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { IconCopy, IconCopyCheck } from "@tabler/icons-react";
 import React, { useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkCold } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -35,11 +36,15 @@ const CodeBlockWrapper: React.FC<CodeBlockWrapperProps> = ({
         style={coldarkCold}
       />
       <Button
-        color={copied ? "teal" : "gray"}
+        variant="ghost"
         style={{ position: "absolute", top: "0.5rem", right: "0.5rem" }}
         onClick={copyToClipboard}
       >
-        {copied ? "Copied!" : "Copy"}
+        {copied ? (
+          <IconCopyCheck size={24} color="black" />
+        ) : (
+          <IconCopy size={24} color="black" />
+        )}
       </Button>
     </div>
   );

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.20.5",
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
@@ -26,6 +27,7 @@
     "@mantine/spotlight": "^7.6.1",
     "@mantine/tiptap": "^7.6.1",
     "@mantinex/mantine-logo": "^1.0.1",
+    "@mdi/js": "^7.4.47",
     "@prisma/client": "^5.11.0",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -60,6 +62,7 @@
     "framer-motion": "^11.0.6",
     "lodash": "^4.17.21",
     "lucide-react": "^0.367.0",
+    "mdi-react": "^9.4.0",
     "next": "^14.1.0",
     "next-themes": "^0.3.0",
     "openai": "^4.20.1",
@@ -68,7 +71,7 @@
     "react": "^18",
     "react-dom": "^18.2.0",
     "react-flip-toolkit": "^7.1.0",
-    "react-hook-form": "^7.51.2",
+    "react-hook-form": "^7.51.3",
     "react-lazy-load-image-component": "^1.6.0",
     "react-markdown": "^9.0.1",
     "react-resizable-panels": "^2.0.16",
