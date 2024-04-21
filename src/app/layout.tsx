@@ -36,22 +36,21 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="max-w-screen flex w-screen flex-row items-center space-x-4 overflow-x-hidden overflow-y-hidden">
-              <div className="w-64 flex-shrink-0">
+            <div className="max-w-screen flex w-screen flex-row items-center space-x-4 overflow-hidden">
+              <div className="w-52 flex-shrink-0">
                 <LeftSidebar />
               </div>
               <Separator orientation="vertical" className="mx-4 h-screen" />
               <div className="flex-grow overflow-hidden">
                 <div className="flex h-screen flex-col p-2.5">
-                  <div className="flex-grow overflow-y-auto overflow-x-hidden p-4">
+                  <div className="flex-grow overflow-hidden p-4">
                     {children}
                   </div>
-
                   <MessageInput />
                 </div>
               </div>
               <Separator orientation="vertical" className="mx-4 h-screen" />
-              <div className="w-64 flex-shrink-0">
+              <div className="w-52 flex-shrink-0">
                 <RightSidebar />
               </div>
             </div>

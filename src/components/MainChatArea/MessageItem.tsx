@@ -14,13 +14,16 @@ interface MessageItemProps {
 
 const MessageItem = ({ message }: MessageItemProps) => {
   return (
-    <div className="flex items-start space-x-4 space-y-4" key={message.id}>
+    <div
+      className="flex w-full items-start space-x-4 space-y-4"
+      key={message.id}
+    >
       <Avatar className="h-12 w-12">
         <AvatarImage src="https://github.com/shadcn.png" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
 
-      <div className="flex flex-col items-start">
+      <div className="flex w-full flex-col items-start ">
         <Label className="text-lg font-bold text-sky-500">
           {message.sender === SENDER.user ? "You" : "AI"}
         </Label>

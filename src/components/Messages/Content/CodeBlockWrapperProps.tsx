@@ -19,12 +19,12 @@ const CodeBlockWrapper: React.FC<CodeBlockWrapperProps> = ({
   const copyToClipboard = () => {
     navigator.clipboard.writeText(children).then(() => {
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setCopied(false), 1000);
     });
   };
 
   return (
-    <div style={{ position: "relative" }}>
+    <div className="relative w-full">
       <SyntaxHighlighter
         lineProps={{
           style: { wordBreak: "break-all", whiteSpace: "pre-wrap" },
@@ -43,7 +43,11 @@ const CodeBlockWrapper: React.FC<CodeBlockWrapperProps> = ({
         {copied ? (
           <IconCopyCheck size={24} color="black" />
         ) : (
-          <IconCopy size={24} color="black" />
+          <IconCopy
+            size={24}
+            color="black"
+            className={`opacity-40 hover:opacity-100`}
+          />
         )}
       </Button>
     </div>

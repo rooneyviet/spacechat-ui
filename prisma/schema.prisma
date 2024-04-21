@@ -20,8 +20,8 @@ model IConversation {
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
   messages IMessage[]
-  settings IConversationModelSettings? @relation(fields: [settingsId], references: [id])
-  settingsId String? @unique
+  settings IConversationModelSettings @relation(fields: [settingsId], references: [id])
+  settingsId String @unique
 
 }
 
@@ -44,7 +44,7 @@ model IConversationModelSettings {
   model String @default("gpt-3.5-turbo")
   temperature Float @default(0.7)
   topP Float @default(1)
-  maxTokens Int @default(2048)
+  maxTokens Int @default(4000)
   presencePenalty Float @default(0)
   frequencyPenalty Float @default(0)
   conversation IConversation?

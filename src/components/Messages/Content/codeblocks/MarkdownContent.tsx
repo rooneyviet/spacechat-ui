@@ -6,8 +6,6 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import remarkMath from "remark-math";
 import type { PluggableList } from "unified";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { coldarkCold } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { cn } from "@/lib/utils";
 import CodeBlockWrapper from "../CodeBlockWrapperProps";
 
@@ -28,12 +26,12 @@ const MarkdownContent = ({ content }: MarkdownContentProps) => {
         remarkGfm,
         [remarkMath, { singleDollarTextMath: true }],
       ]}
+      className="w-full"
       rehypePlugins={rehypePlugins}
       components={{
         code(props) {
           const { children, className, node, ...rest } = props;
           const match = /language-(\w+)/.exec(className || "txt");
-          console.log("match code", match);
           return match ? (
             <CodeBlockWrapper
               language={match[1]}
@@ -44,7 +42,7 @@ const MarkdownContent = ({ content }: MarkdownContentProps) => {
               {...rest}
               className={cn(
                 className,
-                "!whitespace-pre-wrap rounded-md p-1 text-xs text-red-500 dark:text-red-400"
+                "!whitespace-pre-wrap rounded-md p-1 italic text-red-300 dark:text-red-300"
               )}
             >
               {children}

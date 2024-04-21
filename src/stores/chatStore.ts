@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { sendMessageToOpenAI } from "@/services/chatService";
-import { IMessage, SENDER } from "@prisma/client";
+import { IConversation, IMessage, SENDER } from "@prisma/client";
 import { QueryClient } from "@tanstack/react-query";
 //import { useRouter } from "next/dist/client/router";
 import { devtools } from "zustand/middleware";
@@ -10,6 +10,7 @@ interface IChatStore {
   messages: IMessage[];
   inputValue: string;
   currentConversationId?: string;
+  currentConversation?: IConversation;
   isWelcomePage: boolean;
 }
 
@@ -19,6 +20,7 @@ interface IChatActions {
   userSendMessage: (message: string) => Promise<void>;
   generatingLastMessage: (message: string, isError: boolean) => Promise<void>;
   setConversationId: (conversationId?: string) => void;
+  setCurrentConversation: (conversation: IConversation) => void;
   setIsWelcomePage: (isWelcomePage: boolean) => void;
   resetChat: () => void;
 }
@@ -50,6 +52,11 @@ export const useChatStore = create<IChatStore & IChatActions>()(
       setConversationId: (conversationId?: string) => {
         set((state) => ({
           currentConversationId: conversationId,
+        }));
+      },
+      setCurrentConversation: (conversation: IConversation) => {
+        set((state) => ({
+          currentConversation: conversation,
         }));
       },
       setInputValue: (message: string) => {
